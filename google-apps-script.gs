@@ -1,4 +1,4 @@
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzbEZHbQFRjdWLEe_bEZsWuwQBQeiRcXJtMTiC-RpgF/dev";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1l1jMUNXWlqqEhFDFb-yVykCfvDm31EQ4Fzrt5lVn-eE/edit?gid=0#gid=0";
 const SHEET_NAME = "Bookings";
 
 function getSheet_() {
