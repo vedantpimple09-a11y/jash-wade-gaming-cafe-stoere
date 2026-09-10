@@ -1,4 +1,4 @@
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1qdU2CTcuk4peAIDGCNGTJYKfT-rl_9wcOAJJttrbWyE/edit";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1qdU2CTcuk4peAIDGCNGTJYKfT-rl_9wcOAJJttrbWyE/edit?gid=0#gid=0";
 const SHEET_NAME = "Bookings";
 
 
