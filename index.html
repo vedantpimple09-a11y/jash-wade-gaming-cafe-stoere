@@ -1,740 +1,2809 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
 <title>Gaming Castle — Local Gaming Zone</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link
+  href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Press+Start+2P&family=Inter:wght@400;500;600;700&display=swap"
+  rel="stylesheet"
+>
+
 <style>
-  :root{
-    --bg:#F6F1E4;
-    --bg-2:#EDE3CC;
-    --panel:#FFFFFF;
-    --panel-2:#FBF7EC;
-    --stone:#E3D8BC;
-    --stone-line:#C7B78E;
-    --torch:#A6741D;
-    --torch-dim:#8C6015;
-    --cyan:#146569;
-    --parchment:#2B2438;
-    --parchment-dim:#6B6178;
-    --danger:#B33A32;
-    --danger-dim:#F5D9D6;
-    --success:#2F8F5B;
-    --radius:3px;
-    --display:'Cinzel', serif;
-    --pixel:'Press Start 2P', monospace;
-    --body:'Inter', system-ui, sans-serif;
+
+:root{
+  --bg:#F6F1E4;
+  --bg-2:#EDE3CC;
+  --panel:#FFFFFF;
+  --panel-2:#FBF7EC;
+  --stone:#E3D8BC;
+  --stone-line:#C7B78E;
+  --torch:#A6741D;
+  --torch-dim:#8C6015;
+  --cyan:#146569;
+  --parchment:#2B2438;
+  --parchment-dim:#6B6178;
+  --danger:#B33A32;
+  --danger-dim:#F5D9D6;
+  --success:#2F8F5B;
+  --radius:3px;
+
+  --display:'Cinzel',serif;
+  --pixel:'Press Start 2P',monospace;
+  --body:'Inter',system-ui,sans-serif;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--parchment);
+  font-family:var(--body);
+  line-height:1.55;
+}
+
+img,
+svg{
+  display:block;
+  max-width:100%;
+}
+
+a{
+  color:inherit;
+}
+
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
+
+.container{
+  max-width:1120px;
+  margin:0 auto;
+  padding:0 24px;
+}
+
+section{
+  padding:88px 0;
+}
+
+h1,
+h2,
+h3{
+  font-family:var(--display);
+  font-weight:700;
+  margin:0;
+  letter-spacing:.01em;
+}
+
+.eyebrow{
+  font-family:var(--pixel);
+  font-size:10px;
+  letter-spacing:.12em;
+  color:var(--torch);
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:inline-block;
+}
+
+:focus-visible{
+  outline:2px solid var(--cyan);
+  outline-offset:3px;
+}
+
+@media(
+  prefers-reduced-motion:reduce
+){
+  *{
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+    scroll-behavior:auto!important;
+  }
+}
+
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:40;
+  background:rgba(246,241,228,.92);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--stone);
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:18px 0;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--display);
+  font-size:20px;
+  font-weight:700;
+  color:var(--parchment);
+  text-decoration:none;
+}
+
+.brand .mark{
+  color:var(--torch);
+  font-size:22px;
+}
+
+.nav-links{
+  display:flex;
+  gap:32px;
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.nav-links a{
+  text-decoration:none;
+  font-size:14px;
+  font-weight:500;
+  color:var(--parchment-dim);
+  transition:color .15s ease;
+}
+
+.nav-links a:hover{
+  color:var(--torch);
+}
+
+.nav-cta{
+  background:var(--torch);
+  color:#FFFFFF;
+  border:none;
+  font-weight:700;
+  font-size:14px;
+  padding:10px 20px;
+  border-radius:var(--radius);
+  text-decoration:none;
+}
+
+@media(max-width:760px){
+
+  .nav-links{
+    display:none;
   }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--parchment);
-    font-family:var(--body);
-    line-height:1.55;
-  }
-  img,svg{display:block;max-width:100%;}
-  a{color:inherit;}
-  button{font-family:inherit;cursor:pointer;}
-  .container{max-width:1120px;margin:0 auto;padding:0 24px;}
-  section{padding:88px 0;}
-  h1,h2,h3{font-family:var(--display);font-weight:700;margin:0;letter-spacing:.01em;}
-  .eyebrow{
-    font-family:var(--pixel);
-    font-size:10px;
-    letter-spacing:.12em;
-    color:var(--torch);
-    text-transform:uppercase;
-    margin-bottom:14px;
-    display:inline-block;
-  }
-  .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-  :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;}
-  @media (prefers-reduced-motion: reduce){
-    *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+
+
+/* HERO */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:0;
+
+  background:
+    radial-gradient(
+      ellipse at 20% -10%,
+      rgba(20,101,105,.08),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 80% 0%,
+      rgba(166,116,29,.10),
+      transparent 50%
+    ),
+    var(--bg);
+}
+
+.hero-inner{
+  max-width:1120px;
+  margin:0 auto;
+  padding:96px 24px 0;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:40px;
+  align-items:center;
+}
+
+.hero h1{
+  font-size:clamp(38px,5.4vw,60px);
+  line-height:1.06;
+  color:var(--parchment);
+}
+
+.hero h1 span{
+  color:var(--torch);
+}
+
+.hero p.lede{
+  margin:22px 0 30px;
+  font-size:17px;
+  color:var(--parchment-dim);
+  max-width:46ch;
+}
+
+.hero-meta{
+  display:flex;
+  gap:28px;
+  flex-wrap:wrap;
+  margin-bottom:34px;
+}
+
+.hero-meta div{
+  font-size:13px;
+  color:var(--parchment-dim);
+}
+
+.hero-meta strong{
+  display:block;
+  font-family:var(--pixel);
+  font-size:12px;
+  color:var(--cyan);
+  margin-bottom:6px;
+  letter-spacing:.04em;
+}
+
+.btn-primary{
+  display:inline-block;
+  background:var(--torch);
+  color:#FFFFFF;
+  font-weight:700;
+  font-size:15px;
+  padding:15px 30px;
+  border:none;
+  border-radius:var(--radius);
+  text-decoration:none;
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+
+.btn-primary:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(166,116,29,.25);
+}
+
+.btn-ghost{
+  display:inline-block;
+  background:transparent;
+  color:var(--parchment);
+  font-weight:600;
+  font-size:15px;
+  padding:14px 24px;
+  border:1px solid var(--stone-line);
+  border-radius:var(--radius);
+  text-decoration:none;
+  margin-left:12px;
+}
+
+.btn-ghost:hover{
+  border-color:var(--torch);
+  color:var(--torch);
+}
+
+.hero-photo-wrap{
+  position:relative;
+  border-radius:6px;
+  overflow:hidden;
+  border:1px solid var(--stone-line);
+  box-shadow:0 18px 40px rgba(107,73,20,.14);
+}
+
+.hero-photo-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  aspect-ratio:4/3.1;
+  display:block;
+}
+
+
+/* SKYLINE */
+
+.skyline-divider{
+  background:var(--bg-2);
+  border-top:1px solid var(--stone);
+  border-bottom:1px solid var(--stone);
+}
+
+.skyline-divider svg{
+  width:100%;
+  height:64px;
+  display:block;
+}
+
+.win{
+  transition:fill .6s ease,opacity .6s ease;
+}
+
+.win.lit{
+  fill:var(--torch);
+}
+
+.win.lit.cyan{
+  fill:var(--cyan);
+}
+
+.win.dark{
+  fill:#D8CBA6;
+  opacity:.7;
+}
+
+@keyframes flicker{
+
+  0%,100%{
+    opacity:1;
   }
 
-  header{
-    position:sticky;top:0;z-index:40;
-    background:rgba(246,241,228,.92);
-    backdrop-filter:blur(6px);
-    border-bottom:1px solid var(--stone);
-  }
-  .nav{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:18px 0;
-  }
-  .brand{
-    display:flex;align-items:center;gap:10px;
-    font-family:var(--display);
-    font-size:20px;font-weight:700;
-    color:var(--parchment);
-    text-decoration:none;
-  }
-  .brand .mark{color:var(--torch);font-size:22px;}
-  .nav-links{display:flex;gap:32px;list-style:none;margin:0;padding:0;}
-  .nav-links a{
-    text-decoration:none;font-size:14px;font-weight:500;color:var(--parchment-dim);
-    transition:color .15s ease;
-  }
-  .nav-links a:hover{color:var(--torch);}
-  .nav-cta{
-    background:var(--torch);color:#FFFFFF;border:none;
-    font-weight:700;font-size:14px;padding:10px 20px;border-radius:var(--radius);
-    text-decoration:none;
-  }
-  .nav-toggle{display:none;background:none;border:none;color:var(--parchment);font-size:22px;}
-
-  @media (max-width:760px){
-    .nav-links{display:none;}
-    .nav-toggle{display:block;}
+  45%{
+    opacity:.78;
   }
 
-  .hero{
-    position:relative;
-    overflow:hidden;
-    padding:0;
-    background:
-      radial-gradient(ellipse at 20% -10%, rgba(20,101,105,.08), transparent 55%),
-      radial-gradient(ellipse at 80% 0%, rgba(166,116,29,.10), transparent 50%),
-      var(--bg);
+  55%{
+    opacity:1;
   }
-  .hero-inner{
-    max-width:1120px;margin:0 auto;padding:96px 24px 0;
-    display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;
-  }
-  .hero h1{
-    font-size:clamp(38px,5.4vw,60px);
-    line-height:1.06;
-    color:var(--parchment);
-  }
-  .hero h1 span{color:var(--torch);}
-  .hero p.lede{
-    margin:22px 0 30px;
-    font-size:17px;
-    color:var(--parchment-dim);
-    max-width:46ch;
-  }
-  .hero-meta{
-    display:flex;gap:28px;flex-wrap:wrap;margin-bottom:34px;
-  }
-  .hero-meta div{font-size:13px;color:var(--parchment-dim);}
-  .hero-meta strong{
-    display:block;font-family:var(--pixel);font-size:12px;color:var(--cyan);
-    margin-bottom:6px;letter-spacing:.04em;
-  }
-  .btn-primary{
-    display:inline-block;background:var(--torch);color:#FFFFFF;
-    font-weight:700;font-size:15px;padding:15px 30px;border:none;border-radius:var(--radius);
-    text-decoration:none;transition:transform .15s ease, box-shadow .15s ease;
-    box-shadow:0 0 0 rgba(166,116,29,0);
-  }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(166,116,29,.25);}
-  .btn-ghost{
-    display:inline-block;background:transparent;color:var(--parchment);
-    font-weight:600;font-size:15px;padding:14px 24px;border:1px solid var(--stone-line);border-radius:var(--radius);
-    text-decoration:none;margin-left:12px;
-  }
-  .btn-ghost:hover{border-color:var(--torch);color:var(--torch);}
 
-  .hero-photo-wrap{
-    position:relative;border-radius:6px;overflow:hidden;
-    border:1px solid var(--stone-line);
-    box-shadow:0 18px 40px rgba(107,73,20,.14);
+  78%{
+    opacity:.88;
   }
-  .hero-photo-wrap img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3.1;display:block;}
+}
 
-  .skyline-divider{background:var(--bg-2);border-top:1px solid var(--stone);border-bottom:1px solid var(--stone);}
-  .skyline-divider svg{width:100%;height:64px;display:block;}
-  .win{transition:fill .6s ease, opacity .6s ease;}
-  .win.lit{fill:var(--torch);}
-  .win.lit.cyan{fill:var(--cyan);}
-  .win.dark{fill:#D8CBA6;opacity:.7;}
-  @keyframes flicker{
-    0%,100%{opacity:1;} 45%{opacity:.78;} 55%{opacity:1;} 78%{opacity:.88;}
-  }
-  .win.lit{animation:flicker 4s ease-in-out infinite;}
-  .win.lit:nth-child(3n){animation-delay:.6s;}
-  .win.lit:nth-child(4n){animation-delay:1.3s;}
+.win.lit{
+  animation:flicker 4s ease-in-out infinite;
+}
 
-  .section-head{max-width:640px;margin:0 auto 48px;text-align:center;}
-  .section-head h2{font-size:clamp(28px,3.6vw,38px);color:var(--parchment);}
-  .section-head p{color:var(--parchment-dim);margin-top:12px;font-size:15.5px;}
 
-  .stations{background:var(--bg-2);border-top:1px solid var(--stone);border-bottom:1px solid var(--stone);}
+/* SECTIONS */
+
+.section-head{
+  max-width:640px;
+  margin:0 auto 48px;
+  text-align:center;
+}
+
+.section-head h2{
+  font-size:clamp(28px,3.6vw,38px);
+  color:var(--parchment);
+}
+
+.section-head p{
+  color:var(--parchment-dim);
+  margin-top:12px;
+  font-size:15.5px;
+}
+
+
+/* STATIONS */
+
+.stations{
+  background:var(--bg-2);
+  border-top:1px solid var(--stone);
+  border-bottom:1px solid var(--stone);
+}
+
+.station-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.station-card{
+  background:var(--panel);
+  border:1px solid var(--stone);
+  border-radius:var(--radius);
+  padding:26px 22px;
+  position:relative;
+  overflow:hidden;
+}
+
+.station-card::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  height:3px;
+  background:var(--torch-dim);
+  z-index:1;
+}
+
+.station-card.cyan::before{
+  background:var(--cyan);
+}
+
+.station-photo{
+  margin:-26px -22px 18px;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:var(--bg-2);
+}
+
+.station-photo img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.station-tag{
+  font-family:var(--pixel);
+  font-size:9px;
+  color:var(--torch);
+  letter-spacing:.06em;
+  display:inline-block;
+  margin-bottom:14px;
+}
+
+.station-card.cyan .station-tag{
+  color:var(--cyan);
+}
+
+.station-card h3{
+  font-family:var(--body);
+  font-size:16px;
+  font-weight:700;
+  color:var(--parchment);
+  margin-bottom:6px;
+}
+
+.station-card p{
+  font-size:13.5px;
+  color:var(--parchment-dim);
+  margin:0;
+}
+
+@media(max-width:900px){
+
   .station-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
-  }
-  .station-card{
-    background:var(--panel);border:1px solid var(--stone);border-radius:var(--radius);
-    padding:26px 22px;position:relative;overflow:hidden;
-  }
-  .station-card::before{
-    content:'';position:absolute;top:0;left:0;right:0;height:3px;
-    background:var(--torch-dim);z-index:1;
-  }
-  .station-card.cyan::before{background:var(--cyan);}
-  .station-photo{
-    margin:-26px -22px 18px;aspect-ratio:4/3;overflow:hidden;background:var(--bg-2);
-  }
-  .station-photo img{width:100%;height:100%;object-fit:cover;display:block;}
-  .station-icon{font-size:30px;margin-bottom:16px;display:block;}
-  .station-card h3{font-family:var(--body);font-size:16px;font-weight:700;color:var(--parchment);margin-bottom:6px;}
-  .station-tag{
-    font-family:var(--pixel);font-size:9px;color:var(--torch);letter-spacing:.06em;
-    display:inline-block;margin-bottom:14px;
-  }
-  .station-card.cyan .station-tag{color:var(--cyan);}
-  .station-card p{font-size:13.5px;color:var(--parchment-dim);margin:0;}
-
-  @media (max-width:900px){
-    .station-grid{grid-template-columns:repeat(2,1fr);}
-    .hero-inner{grid-template-columns:1fr;}
-  }
-  @media (max-width:560px){
-    .station-grid{grid-template-columns:1fr;}
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-  .gallery-item{
-    border-radius:6px;overflow:hidden;border:1px solid var(--stone-line);
-    aspect-ratio:4/3;background:var(--bg-2);
+  .hero-inner{
+    grid-template-columns:1fr;
   }
-  .gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease;}
-  .gallery-item:hover img{transform:scale(1.04);}
-  @media (max-width:760px){ .gallery-grid{grid-template-columns:1fr;} }
+
+}
+
+@media(max-width:560px){
+
+  .station-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+/* GALLERY */
+
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.gallery-item{
+  border-radius:6px;
+  overflow:hidden;
+  border:1px solid var(--stone-line);
+  aspect-ratio:4/3;
+  background:var(--bg-2);
+}
+
+.gallery-item img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .3s ease;
+}
+
+.gallery-item:hover img{
+  transform:scale(1.04);
+}
+
+@media(max-width:760px){
+
+  .gallery-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+/* BOOKING */
+
+.booking-shell{
+  background:var(--panel);
+  border:1px solid var(--stone);
+  border-radius:6px;
+  padding:36px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:36px;
+}
+
+@media(max-width:820px){
 
   .booking-shell{
-    background:var(--panel);border:1px solid var(--stone);border-radius:6px;
-    padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:36px;
+    grid-template-columns:1fr;
   }
-  @media (max-width:820px){ .booking-shell{grid-template-columns:1fr;} }
 
-  .field{margin-bottom:18px;}
-  .field label{
-    display:block;font-size:12.5px;font-weight:600;color:var(--parchment-dim);
-    margin-bottom:7px;text-transform:uppercase;letter-spacing:.03em;
+}
+
+.field{
+  margin-bottom:18px;
+}
+
+.field label{
+  display:block;
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--parchment-dim);
+  margin-bottom:7px;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+
+.field input,
+.field select{
+  width:100%;
+  background:var(--bg-2);
+  border:1px solid var(--stone-line);
+  color:var(--parchment);
+  padding:12px 14px;
+  border-radius:var(--radius);
+  font-size:14.5px;
+  font-family:var(--body);
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:var(--cyan);
+}
+
+.field-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.tower-select{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-bottom:22px;
+}
+
+.tower-btn{
+  background:var(--bg-2);
+  border:1px solid var(--stone-line);
+  border-radius:var(--radius);
+  padding:12px 10px;
+  text-align:center;
+  color:var(--parchment-dim);
+  font-size:12.5px;
+  font-weight:600;
+}
+
+.tower-btn.active{
+  border-color:var(--torch);
+  color:var(--torch);
+  background:rgba(232,163,61,.08);
+}
+
+.slot-legend{
+  display:flex;
+  gap:18px;
+  margin-bottom:14px;
+  font-size:12px;
+  color:var(--parchment-dim);
+}
+
+.slot-legend span{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  border-radius:2px;
+  display:inline-block;
+}
+
+.dot.free{
+  background:var(--stone-line);
+}
+
+.dot.chosen{
+  background:var(--cyan);
+}
+
+.dot.taken{
+  background:var(--danger-dim);
+}
+
+.window-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(64px,1fr));
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.window-cell{
+  background:var(--bg-2);
+  border:1px solid var(--stone-line);
+  border-radius:var(--radius);
+  padding:9px 4px;
+  text-align:center;
+  font-family:var(--pixel);
+  font-size:9.5px;
+  color:var(--parchment-dim);
+  line-height:1.6;
+}
+
+.window-cell.free:hover{
+  border-color:var(--cyan);
+  color:var(--cyan);
+}
+
+.window-cell.taken{
+  background:var(--danger-dim);
+  color:#8B2F28;
+  opacity:.85;
+  cursor:not-allowed;
+}
+
+.window-cell.chosen{
+  background:var(--cyan);
+  color:#FFFFFF;
+  border-color:var(--cyan);
+}
+
+.window-cell.in-range{
+  background:rgba(20,101,105,.15);
+  color:var(--cyan);
+  border-color:var(--cyan);
+}
+
+.duration-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:22px;
+}
+
+.stepper{
+  display:flex;
+  align-items:center;
+  border:1px solid var(--stone-line);
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+
+.stepper button{
+  background:var(--bg-2);
+  color:var(--parchment);
+  border:none;
+  width:38px;
+  height:38px;
+  font-size:16px;
+}
+
+.stepper button:disabled{
+  opacity:.35;
+}
+
+.stepper span{
+  width:64px;
+  text-align:center;
+  font-family:var(--pixel);
+  font-size:12px;
+  color:var(--torch);
+}
+
+.drawbridge-btn{
+  width:100%;
+  background:var(--torch);
+  color:#FFFFFF;
+  border:none;
+  border-radius:var(--radius);
+  padding:16px;
+  font-weight:700;
+  font-size:15px;
+  transition:transform .15s ease;
+}
+
+.drawbridge-btn:hover{
+  transform:translateY(-2px);
+}
+
+.drawbridge-btn:disabled{
+  background:var(--stone);
+  color:var(--parchment-dim);
+  transform:none;
+}
+
+.status-msg{
+  margin-top:14px;
+  font-size:13.5px;
+  padding:12px 14px;
+  border-radius:var(--radius);
+  display:none;
+}
+
+.status-msg.show{
+  display:block;
+}
+
+.status-msg.ok{
+  background:rgba(89,197,138,.12);
+  color:var(--success);
+  border:1px solid rgba(89,197,138,.35);
+}
+
+.status-msg.err{
+  background:rgba(179,58,50,.10);
+  color:#8B2F28;
+  border:1px solid rgba(179,58,50,.3);
+}
+
+.status-msg.info{
+  background:rgba(87,217,222,.1);
+  color:var(--cyan);
+  border:1px solid rgba(87,217,222,.3);
+}
+
+.booking-summary{
+  background:var(--bg-2);
+  border:1px dashed var(--stone-line);
+  border-radius:var(--radius);
+  padding:20px;
+  font-size:13.5px;
+  color:var(--parchment-dim);
+}
+
+.booking-summary h4{
+  font-family:var(--pixel);
+  font-size:11px;
+  color:var(--torch);
+  margin:0 0 12px;
+  letter-spacing:.05em;
+}
+
+.booking-summary dl{
+  margin:0;
+}
+
+.booking-summary dt{
+  color:var(--parchment-dim);
+  font-size:11.5px;
+  margin-top:10px;
+}
+
+.booking-summary dd{
+  margin:2px 0 0;
+  color:var(--parchment);
+  font-weight:600;
+  font-size:14px;
+}
+
+
+/* HOURS */
+
+.hours-contact{
+  background:var(--bg-2);
+  border-top:1px solid var(--stone);
+}
+
+.hc-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:40px;
+}
+
+@media(max-width:760px){
+
+  .hc-grid{
+    grid-template-columns:1fr;
   }
-  .field input, .field select{
-    width:100%;background:var(--bg-2);border:1px solid var(--stone-line);color:var(--parchment);
-    padding:12px 14px;border-radius:var(--radius);font-size:14.5px;font-family:var(--body);
-  }
-  .field input:focus, .field select:focus{border-color:var(--cyan);}
-  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
 
-  .tower-select{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:22px;}
-  .tower-btn{
-    background:var(--bg-2);border:1px solid var(--stone-line);border-radius:var(--radius);
-    padding:12px 10px;text-align:center;color:var(--parchment-dim);font-size:12.5px;font-weight:600;
-  }
-  .tower-btn.active{border-color:var(--torch);color:var(--torch);background:rgba(232,163,61,.08);}
-  .tower-btn:disabled{opacity:.4;cursor:not-allowed;}
+}
 
-  .slot-legend{display:flex;gap:18px;margin-bottom:14px;font-size:12px;color:var(--parchment-dim);}
-  .slot-legend span{display:inline-flex;align-items:center;gap:6px;}
-  .dot{width:10px;height:10px;border-radius:2px;display:inline-block;}
-  .dot.free{background:var(--stone-line);}
-  .dot.chosen{background:var(--cyan);}
-  .dot.taken{background:var(--danger-dim);}
+.hc-card{
+  background:var(--panel);
+  border:1px solid var(--stone);
+  border-radius:var(--radius);
+  padding:28px;
+}
 
-  .window-grid{
-    display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px;margin-bottom:20px;
-  }
-  .window-cell{
-    background:var(--bg-2);border:1px solid var(--stone-line);border-radius:var(--radius);
-    padding:9px 4px;text-align:center;font-family:var(--pixel);font-size:9.5px;color:var(--parchment-dim);
-    line-height:1.6;
-  }
-  .window-cell.free:hover{border-color:var(--cyan);color:var(--cyan);}
-  .window-cell.taken{background:var(--danger-dim);color:#8B2F28;opacity:.85;cursor:not-allowed;}
-  .window-cell.chosen{background:var(--cyan);color:#FFFFFF;border-color:var(--cyan);}
-  .window-cell.in-range{background:rgba(20,101,105,.15);color:var(--cyan);border-color:var(--cyan);}
+.hc-card h3{
+  font-family:var(--body);
+  font-size:15px;
+  color:var(--parchment);
+  margin-bottom:16px;
+}
 
-  .duration-row{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
-  .stepper{display:flex;align-items:center;border:1px solid var(--stone-line);border-radius:var(--radius);overflow:hidden;}
-  .stepper button{background:var(--bg-2);color:var(--parchment);border:none;width:38px;height:38px;font-size:16px;}
-  .stepper button:disabled{opacity:.35;}
-  .stepper span{width:64px;text-align:center;font-family:var(--pixel);font-size:12px;color:var(--torch);}
+.hc-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  padding:8px 0;
+  border-bottom:1px solid var(--stone);
+  color:var(--parchment-dim);
+}
 
-  .drawbridge-btn{
-    width:100%;background:var(--torch);color:#FFFFFF;border:none;border-radius:var(--radius);
-    padding:16px;font-weight:700;font-size:15px;transition:transform .15s ease;
-  }
-  .drawbridge-btn:hover{transform:translateY(-2px);}
-  .drawbridge-btn:disabled{background:var(--stone);color:var(--parchment-dim);transform:none;}
+.hc-row:last-child{
+  border-bottom:none;
+}
 
-  .status-msg{margin-top:14px;font-size:13.5px;padding:12px 14px;border-radius:var(--radius);display:none;}
-  .status-msg.show{display:block;}
-  .status-msg.ok{background:rgba(89,197,138,.12);color:var(--success);border:1px solid rgba(89,197,138,.35);}
-  .status-msg.err{background:rgba(179,58,50,.10);color:#8B2F28;border:1px solid rgba(179,58,50,.3);}
-  .status-msg.info{background:rgba(87,217,222,.1);color:var(--cyan);border:1px solid rgba(87,217,222,.3);}
+.hc-row strong{
+  color:var(--parchment);
+  font-weight:600;
+}
 
-  .booking-summary{
-    background:var(--bg-2);border:1px dashed var(--stone-line);border-radius:var(--radius);
-    padding:20px;font-size:13.5px;color:var(--parchment-dim);
-  }
-  .booking-summary h4{font-family:var(--pixel);font-size:11px;color:var(--torch);margin:0 0 12px;letter-spacing:.05em;}
-  .booking-summary dl{margin:0;}
-  .booking-summary dt{color:var(--parchment-dim);font-size:11.5px;margin-top:10px;}
-  .booking-summary dd{margin:2px 0 0;color:var(--parchment);font-weight:600;font-size:14px;}
 
-  .hours-contact{background:var(--bg-2);border-top:1px solid var(--stone);}
-  .hc-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
-  @media (max-width:760px){.hc-grid{grid-template-columns:1fr;}}
-  .hc-card{background:var(--panel);border:1px solid var(--stone);border-radius:var(--radius);padding:28px;}
-  .hc-card h3{font-family:var(--body);font-size:15px;color:var(--parchment);margin-bottom:16px;}
-  .hc-row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid var(--stone);color:var(--parchment-dim);}
-  .hc-row:last-child{border-bottom:none;}
-  .hc-row strong{color:var(--parchment);font-weight:600;}
+/* FOOTER */
 
-  footer{padding:32px 0;text-align:center;font-size:12.5px;color:var(--parchment-dim);border-top:1px solid var(--stone);}
+footer{
+  padding:32px 0;
+  text-align:center;
+  font-size:12.5px;
+  color:var(--parchment-dim);
+  border-top:1px solid var(--stone);
+}
+
 </style>
+
 </head>
+
+
 <body>
 
+
 <header>
-  <div class="container nav">
-    <a href="#top" class="brand"><span class="mark">&#9820;</span> GAMING CASTLE</a>
-    <ul class="nav-links">
-      <li><a href="#stations">Stations</a></li>
-      <li><a href="#gallery">Gallery</a></li>
-      <li><a href="#booking">Book a Slot</a></li>
-      <li><a href="#hours">Hours &amp; Location</a></li>
-    </ul>
-    <a href="#booking" class="nav-cta">Book Now</a>
-  </div>
+
+<div class="container nav">
+
+<a href="#top" class="brand">
+
+<span class="mark">&#9820;</span>
+
+GAMING CASTLE
+
+</a>
+
+
+<ul class="nav-links">
+
+<li>
+<a href="#stations">Stations</a>
+</li>
+
+<li>
+<a href="#gallery">Gallery</a>
+</li>
+
+<li>
+<a href="#booking">Book a Slot</a>
+</li>
+
+<li>
+<a href="#hours">Hours &amp; Location</a>
+</li>
+
+</ul>
+
+
+<a
+  href="#booking"
+  class="nav-cta"
+>
+Book Now
+</a>
+
+</div>
+
 </header>
+
 
 <main id="top">
 
-  <section class="hero">
-    <div class="hero-inner">
-      <div>
-        <span class="eyebrow">Local Gaming Zone</span>
-        <h1>Enter the <span>Castle</span>.<br>Claim your console.</h1>
-        <p class="lede">Two PS5 towers, a full racing rig, and a PS4 chamber — book an hourly slot in seconds and walk straight in.</p>
-        <div class="hero-meta">
-          <div><strong>OPEN DAILY</strong>10:00 AM – 11:00 PM</div>
-          <div><strong>STATIONS</strong>4 consoles, 1 racing rig</div>
-          <div><strong>BOOKING</strong>Instant, by the hour</div>
-        </div>
-        <a href="#booking" class="btn-primary">Book a Slot</a>
-        <a href="#stations" class="btn-ghost">See Stations</a>
-      </div>
-      <div class="hero-photo-wrap">
-        <!-- Replace images/hero.jpg with a real photo of your setup or shopfront -->
-        <img src="images/hero.jpg" alt="Gaming Castle — gaming stations inside the shop">
-      </div>
-    </div>
-  </section>
 
-  <!-- decorative castle skyline strip: 4 towers = 4 stations, lit windows = ambience -->
-  <div class="skyline-divider">
-    <svg viewBox="0 0 420 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-      <rect x="0" y="0" width="420" height="90" fill="#EDE3CC"/>
-      <rect x="20" y="30" width="70" height="60" fill="#E7DCBB" stroke="#C7B78E"/>
-      <polygon points="20,30 55,10 90,30" fill="#DED0A9"/>
-      <rect x="160" y="6" width="100" height="84" fill="#E7DCBB" stroke="#C7B78E"/>
-      <polygon points="160,6 210,-16 260,6" fill="#DED0A9"/>
-      <rect x="300" y="20" width="70" height="70" fill="#E7DCBB" stroke="#C7B78E"/>
-      <polygon points="300,20 335,2 370,20" fill="#DED0A9"/>
-      <rect x="370" y="34" width="45" height="56" fill="#E7DCBB" stroke="#C7B78E"/>
-      <rect class="win lit" x="35" y="46" width="10" height="14"/>
-      <rect class="win dark" x="65" y="46" width="10" height="14"/>
-      <rect class="win lit cyan" x="185" y="26" width="12" height="16"/>
-      <rect class="win lit" x="210" y="26" width="12" height="16"/>
-      <rect class="win dark" x="235" y="26" width="12" height="16"/>
-      <rect class="win lit" x="185" y="55" width="12" height="16"/>
-      <rect class="win lit cyan" x="235" y="55" width="12" height="16"/>
-      <rect class="win lit cyan" x="315" y="40" width="10" height="14"/>
-      <rect class="win lit" x="345" y="40" width="10" height="14"/>
-      <rect class="win lit" x="382" y="50" width="10" height="14"/>
-      <rect class="win dark" x="382" y="70" width="10" height="14"/>
-    </svg>
-  </div>
+<section class="hero">
 
-  <section class="stations" id="stations">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">The Chambers</span>
-        <h2>Four stations, one castle</h2>
-        <p>Every station books separately, by the hour — pick the one that fits your squad.</p>
-      </div>
-      <div class="station-grid">
-        <div class="station-card">
-          <div class="station-photo"><img src="images/station-ps5-1.jpg" alt="PS5 Tower I setup"></div>
-          <span class="station-tag">STATION 01</span>
-          <h3>PS5 Tower I</h3>
-          <p>PlayStation&nbsp;5 with the current-gen lineup, wireless controllers, and a large display.</p>
-        </div>
-        <div class="station-card">
-          <div class="station-photo"><img src="images/station-ps5-2.jpg" alt="PS5 Tower II setup"></div>
-          <span class="station-tag">STATION 02</span>
-          <h3>PS5 Tower II</h3>
-          <p>A second PS5 rig for a friend, a rival, or a co-op run right beside Tower I.</p>
-        </div>
-        <div class="station-card cyan">
-          <div class="station-photo"><img src="images/station-wheel.jpg" alt="Racing rig with steering wheel and pedals"></div>
-          <span class="station-tag">STATION 03</span>
-          <h3>Racing Rig Turret</h3>
-          <p>Force-feedback steering wheel, pedals, and racing seat for the full circuit experience.</p>
-        </div>
-        <div class="station-card">
-          <div class="station-photo"><img src="images/station-ps4.jpg" alt="PS4 Chamber setup"></div>
-          <span class="station-tag">STATION 04</span>
-          <h3>PS4 Chamber</h3>
-          <p>A reliable PlayStation&nbsp;4 setup for classics and budget-friendly sessions.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="hero-inner">
 
-  <section id="gallery">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Inside the Castle</span>
-        <h2>A look around</h2>
-        <p>Swap these for real photos of your shop floor, seating, and setups.</p>
-      </div>
-      <div class="gallery-grid">
-        <div class="gallery-item"><img src="images/gallery-1.jpg" alt="Gaming Castle interior photo 1"></div>
-        <div class="gallery-item"><img src="images/gallery-2.jpg" alt="Gaming Castle interior photo 2"></div>
-        <div class="gallery-item"><img src="images/gallery-3.jpg" alt="Gaming Castle interior photo 3"></div>
-      </div>
-    </div>
-  </section>
+<div>
 
-  <section id="booking">
-    <div class="container">
-      <div class="section-head">
-        <span class="eyebrow">Reserve Your Time</span>
-        <h2>Book a slot</h2>
-        <p>Pick a station, choose an open hour, and set how long you're staying. Slots run 10:00 AM to 11:00 PM.</p>
-      </div>
+<span class="eyebrow">
+Local Gaming Zone
+</span>
 
-      <div class="booking-shell">
-        <div>
-          <div class="field">
-            <label for="date">Date</label>
-            <input type="date" id="date">
-          </div>
+<h1>
+Enter the <span>Castle</span>.<br>
+Claim your console.
+</h1>
 
-          <label style="display:block;font-size:12.5px;font-weight:600;color:var(--parchment-dim);margin-bottom:7px;text-transform:uppercase;letter-spacing:.03em;">Station</label>
-          <div class="tower-select" id="towerSelect"></div>
+<p class="lede">
 
-          <label style="display:block;font-size:12.5px;font-weight:600;color:var(--parchment-dim);margin-bottom:7px;text-transform:uppercase;letter-spacing:.03em;">Start time</label>
-          <div class="slot-legend">
-            <span><i class="dot free"></i>Open</span>
-            <span><i class="dot chosen"></i>Selected</span>
-            <span><i class="dot taken"></i>Booked</span>
-          </div>
-          <div class="window-grid" id="windowGrid"></div>
+Two PS5 towers, a full racing rig, and a PS4 chamber — book an hourly slot in seconds and walk straight in.
 
-          <label style="display:block;font-size:12.5px;font-weight:600;color:var(--parchment-dim);margin-bottom:9px;text-transform:uppercase;letter-spacing:.03em;">Duration</label>
-          <div class="duration-row">
-            <div class="stepper">
-              <button type="button" id="durMinus" aria-label="Decrease duration">&minus;</button>
-              <span id="durVal">1 hr</span>
-              <button type="button" id="durPlus" aria-label="Increase duration">&plus;</button>
-            </div>
-            <span id="durHint" style="font-size:12.5px;color:var(--parchment-dim);">Pick a start time first</span>
-          </div>
-        </div>
+</p>
 
-        <div>
-          <div class="field">
-            <label for="custName">Your name</label>
-            <input type="text" id="custName" placeholder="e.g. Arjun Mehta" autocomplete="name">
-          </div>
-          <div class="field-row">
-            <div class="field">
-              <label for="custPhone">Phone number</label>
-              <input type="tel" id="custPhone" placeholder="10-digit number" autocomplete="tel">
-            </div>
-            <div class="field">
-              <label for="custPeople">Players</label>
-              <select id="custPeople">
-                <option value="1">1</option>
-                <option value="2" selected>2</option>
-                <option value="3">3</option>
-                <option value="4">4+</option>
-              </select>
-            </div>
-          </div>
 
-          <div class="booking-summary" id="summary">
-            <h4>YOUR BOOKING</h4>
-            <dl>
-              <dt>Station</dt><dd id="sumStation">—</dd>
-              <dt>Date</dt><dd id="sumDate">—</dd>
-              <dt>Time</dt><dd id="sumTime">—</dd>
-            </dl>
-          </div>
+<div class="hero-meta">
 
-          <div style="height:20px;"></div>
-          <button class="drawbridge-btn" id="submitBtn" disabled>Lower the Drawbridge — Confirm Booking</button>
-          <div class="status-msg" id="statusMsg"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div>
+<strong>OPEN DAILY</strong>
+10:00 AM – 11:00 PM
+</div>
 
-  <section class="hours-contact" id="hours">
-    <div class="container">
-      <div class="hc-grid">
-        <div class="hc-card">
-          <h3>Opening hours</h3>
-          <div class="hc-row"><span>Monday – Sunday</span><strong>10:00 AM – 11:00 PM</strong></div>
-          <div class="hc-row"><span>Last booking slot</span><strong>10:00 PM – 11:00 PM</strong></div>
-          <div class="hc-row"><span>Walk-ins</span><strong>Welcome, subject to availability</strong></div>
-        </div>
-        <div class="hc-card">
-          <h3>Find us</h3>
-          <div class="hc-row"><span>Address</span><strong>Add your shop address here</strong></div>
-          <div class="hc-row"><span>Phone</span><strong>Add your contact number here</strong></div>
-          <div class="hc-row"><span>Instagram</span><strong>@gamingcastle</strong></div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div>
+<strong>STATIONS</strong>
+4 consoles, 1 racing rig
+</div>
+
+<div>
+<strong>BOOKING</strong>
+Instant, by the hour
+</div>
+
+</div>
+
+
+<a
+  href="#booking"
+  class="btn-primary"
+>
+Book a Slot
+</a>
+
+
+<a
+  href="#stations"
+  class="btn-ghost"
+>
+See Stations
+</a>
+
+</div>
+
+
+<div class="hero-photo-wrap">
+
+<img
+  src="images/hero.jpg"
+  alt="Gaming Castle — gaming stations inside the shop"
+>
+
+</div>
+
+</div>
+
+</section>
+
+
+<div class="skyline-divider">
+
+<svg
+  viewBox="0 0 420 90"
+  xmlns="http://www.w3.org/2000/svg"
+  preserveAspectRatio="none"
+>
+
+<rect
+  x="0"
+  y="0"
+  width="420"
+  height="90"
+  fill="#EDE3CC"
+/>
+
+<rect
+  x="20"
+  y="30"
+  width="70"
+  height="60"
+  fill="#E7DCBB"
+  stroke="#C7B78E"
+/>
+
+<polygon
+  points="20,30 55,10 90,30"
+  fill="#DED0A9"
+/>
+
+<rect
+  x="160"
+  y="6"
+  width="100"
+  height="84"
+  fill="#E7DCBB"
+  stroke="#C7B78E"
+/>
+
+<polygon
+  points="160,6 210,-16 260,6"
+  fill="#DED0A9"
+/>
+
+<rect
+  x="300"
+  y="20"
+  width="70"
+  height="70"
+  fill="#E7DCBB"
+  stroke="#C7B78E"
+/>
+
+<polygon
+  points="300,20 335,2 370,20"
+  fill="#DED0A9"
+/>
+
+<rect
+  x="370"
+  y="34"
+  width="45"
+  height="56"
+  fill="#E7DCBB"
+  stroke="#C7B78E"
+/>
+
+<rect class="win lit" x="35" y="46" width="10" height="14"/>
+
+<rect class="win dark" x="65" y="46" width="10" height="14"/>
+
+<rect class="win lit cyan" x="185" y="26" width="12" height="16"/>
+
+<rect class="win lit" x="210" y="26" width="12" height="16"/>
+
+<rect class="win dark" x="235" y="26" width="12" height="16"/>
+
+<rect class="win lit" x="185" y="55" width="12" height="16"/>
+
+<rect class="win lit cyan" x="235" y="55" width="12" height="16"/>
+
+<rect class="win lit cyan" x="315" y="40" width="10" height="14"/>
+
+<rect class="win lit" x="345" y="40" width="10" height="14"/>
+
+<rect class="win lit" x="382" y="50" width="10" height="14"/>
+
+<rect class="win dark" x="382" y="70" width="10" height="14"/>
+
+</svg>
+
+</div>
+
+
+<section
+  class="stations"
+  id="stations"
+>
+
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">
+The Chambers
+</span>
+
+<h2>
+Four stations, one castle
+</h2>
+
+<p>
+Every station books separately, by the hour — pick the one that fits your squad.
+</p>
+
+</div>
+
+
+<div class="station-grid">
+
+
+<div class="station-card">
+
+<div class="station-photo">
+
+<img
+  src="images/station-ps5-1.jpg"
+  alt="PS5 Tower I setup"
+>
+
+</div>
+
+<span class="station-tag">
+STATION 01
+</span>
+
+<h3>
+PS5 Tower I
+</h3>
+
+<p>
+PlayStation 5 with the current-gen lineup, wireless controllers, and a large display.
+</p>
+
+</div>
+
+
+<div class="station-card">
+
+<div class="station-photo">
+
+<img
+  src="images/station-ps5-2.jpg"
+  alt="PS5 Tower II setup"
+>
+
+</div>
+
+<span class="station-tag">
+STATION 02
+</span>
+
+<h3>
+PS5 Tower II
+</h3>
+
+<p>
+A second PS5 rig for a friend, a rival, or a co-op run right beside Tower I.
+</p>
+
+</div>
+
+
+<div class="station-card cyan">
+
+<div class="station-photo">
+
+<img
+  src="images/station-wheel.jpg"
+  alt="Racing rig with steering wheel and pedals"
+>
+
+</div>
+
+<span class="station-tag">
+STATION 03
+</span>
+
+<h3>
+Racing Rig Turret
+</h3>
+
+<p>
+Force-feedback steering wheel, pedals, and racing seat for the full circuit experience.
+</p>
+
+</div>
+
+
+<div class="station-card">
+
+<div class="station-photo">
+
+<img
+  src="images/station-ps4.jpg"
+  alt="PS4 Chamber setup"
+>
+
+</div>
+
+<span class="station-tag">
+STATION 04
+</span>
+
+<h3>
+PS4 Chamber
+</h3>
+
+<p>
+A reliable PlayStation 4 setup for classics and budget-friendly sessions.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="gallery">
+
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">
+Inside the Castle
+</span>
+
+<h2>
+A look around
+</h2>
+
+<p>
+Swap these for real photos of your shop floor, seating, and setups.
+</p>
+
+</div>
+
+
+<div class="gallery-grid">
+
+<div class="gallery-item">
+
+<img
+  src="images/gallery-1.jpg"
+  alt="Gaming Castle interior photo 1"
+>
+
+</div>
+
+
+<div class="gallery-item">
+
+<img
+  src="images/gallery-2.jpg"
+  alt="Gaming Castle interior photo 2"
+>
+
+</div>
+
+
+<div class="gallery-item">
+
+<img
+  src="images/gallery-3.jpg"
+  alt="Gaming Castle interior photo 3"
+>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="booking">
+
+<div class="container">
+
+<div class="section-head">
+
+<span class="eyebrow">
+Reserve Your Time
+</span>
+
+<h2>
+Book a slot
+</h2>
+
+<p>
+Pick a station, choose an open hour, and set how long you're staying. Slots run 10:00 AM to 11:00 PM.
+</p>
+
+</div>
+
+
+<div class="booking-shell">
+
+
+<div>
+
+<div class="field">
+
+<label for="date">
+Date
+</label>
+
+<input
+  type="date"
+  id="date"
+>
+
+</div>
+
+
+<label
+  style="
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--parchment-dim);
+    margin-bottom:7px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  "
+>
+Station
+</label>
+
+
+<div
+  class="tower-select"
+  id="towerSelect"
+></div>
+
+
+<label
+  style="
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--parchment-dim);
+    margin-bottom:7px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  "
+>
+Start time
+</label>
+
+
+<div class="slot-legend">
+
+<span>
+<i class="dot free"></i>
+Open
+</span>
+
+<span>
+<i class="dot chosen"></i>
+Selected
+</span>
+
+<span>
+<i class="dot taken"></i>
+Booked
+</span>
+
+</div>
+
+
+<div
+  class="window-grid"
+  id="windowGrid"
+></div>
+
+
+<label
+  style="
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--parchment-dim);
+    margin-bottom:9px;
+    text-transform:uppercase;
+    letter-spacing:.03em;
+  "
+>
+Duration
+</label>
+
+
+<div class="duration-row">
+
+<div class="stepper">
+
+<button
+  type="button"
+  id="durMinus"
+  aria-label="Decrease duration"
+>
+&minus;
+</button>
+
+<span id="durVal">
+1 hr
+</span>
+
+<button
+  type="button"
+  id="durPlus"
+  aria-label="Increase duration"
+>
+&plus;
+</button>
+
+</div>
+
+
+<span
+  id="durHint"
+  style="
+    font-size:12.5px;
+    color:var(--parchment-dim);
+  "
+>
+Pick a start time first
+</span>
+
+</div>
+
+</div>
+
+
+<div>
+
+
+<div class="field">
+
+<label for="custName">
+Your name
+</label>
+
+<input
+  type="text"
+  id="custName"
+  placeholder="e.g. Arjun Mehta"
+  autocomplete="name"
+>
+
+</div>
+
+
+<div class="field-row">
+
+
+<div class="field">
+
+<label for="custPhone">
+Phone number
+</label>
+
+<input
+  type="tel"
+  id="custPhone"
+  placeholder="10-digit number"
+  autocomplete="tel"
+  maxlength="10"
+>
+
+</div>
+
+
+<div class="field">
+
+<label for="custPeople">
+Players
+</label>
+
+<select id="custPeople">
+
+<option value="1">
+1
+</option>
+
+<option
+  value="2"
+  selected
+>
+2
+</option>
+
+<option value="3">
+3
+</option>
+
+<option value="4+">
+4+
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<div
+  class="booking-summary"
+  id="summary"
+>
+
+<h4>
+YOUR BOOKING
+</h4>
+
+<dl>
+
+<dt>
+Station
+</dt>
+
+<dd id="sumStation">
+—
+</dd>
+
+
+<dt>
+Date
+</dt>
+
+<dd id="sumDate">
+—
+</dd>
+
+
+<dt>
+Time
+</dt>
+
+<dd id="sumTime">
+—
+</dd>
+
+</dl>
+
+</div>
+
+
+<div style="height:20px;"></div>
+
+
+<button
+  class="drawbridge-btn"
+  id="submitBtn"
+  disabled
+>
+Lower the Drawbridge — Confirm Booking
+</button>
+
+
+<div
+  class="status-msg"
+  id="statusMsg"
+></div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section
+  class="hours-contact"
+  id="hours"
+>
+
+<div class="container">
+
+<div class="hc-grid">
+
+
+<div class="hc-card">
+
+<h3>
+Opening hours
+</h3>
+
+<div class="hc-row">
+
+<span>
+Monday – Sunday
+</span>
+
+<strong>
+10:00 AM – 11:00 PM
+</strong>
+
+</div>
+
+
+<div class="hc-row">
+
+<span>
+Last booking slot
+</span>
+
+<strong>
+10:00 PM – 11:00 PM
+</strong>
+
+</div>
+
+
+<div class="hc-row">
+
+<span>
+Walk-ins
+</span>
+
+<strong>
+Welcome, subject to availability
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="hc-card">
+
+<h3>
+Find us
+</h3>
+
+<div class="hc-row">
+
+<span>
+Address
+</span>
+
+<strong>
+Add your shop address here
+</strong>
+
+</div>
+
+
+<div class="hc-row">
+
+<span>
+Phone
+</span>
+
+<strong>
+Add your contact number here
+</strong>
+
+</div>
+
+
+<div class="hc-row">
+
+<span>
+Instagram
+</span>
+
+<strong>
+@gamingcastle
+</strong>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
 
 </main>
 
+
 <footer>
-  Gaming Castle — local gaming zone. Bookings sync live to our floor sheet.
+
+Gaming Castle — local gaming zone. Bookings sync live to our floor sheet.
+
 </footer>
 
-<script>
-   const API_URL = "https://script.google.com/macros/s/AKfycbzEtEf1EagByFbRUXF1dL322afHeO453Yeqhg5Nxh_v6e6qpV8tpJrPhCWqcrXbBRB2/exec";
 
-const OPEN_HOUR = 10;   // 10 AM
-const CLOSE_HOUR = 23;  // 11 PM (last window ends here)
-const MAX_DURATION = CLOSE_HOUR - OPEN_HOUR;
+<script>
+
+
+/* =========================================
+   YOUR GOOGLE APPS SCRIPT WEB APP
+========================================= */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbxVdDc9vu31Omvx3OwoRm1_Q4spYTsWYl6MGGMfYos35wqVmWXP590OKYK33qiWjE8x/exec";
+
+
+/* =========================================
+   BUSINESS HOURS
+========================================= */
+
+const OPEN_HOUR = 10;
+
+const CLOSE_HOUR = 23;
+
+const MAX_DURATION =
+  CLOSE_HOUR - OPEN_HOUR;
+
+
+/* =========================================
+   GAMING STATIONS
+========================================= */
 
 const STATIONS = [
-  { id: "ps5-1",  name: "PS5 Tower I",        type: "PS5" },
-  { id: "ps5-2",  name: "PS5 Tower II",       type: "PS5" },
-  { id: "wheel",  name: "Racing Rig Turret",  type: "Racing Rig" },
-  { id: "ps4",    name: "PS4 Chamber",        type: "PS4" }
+
+  {
+    id:"ps5-1",
+    name:"PS5 Tower I",
+    type:"PS5"
+  },
+
+  {
+    id:"ps5-2",
+    name:"PS5 Tower II",
+    type:"PS5"
+  },
+
+  {
+    id:"wheel",
+    name:"Racing Rig Turret",
+    type:"Racing Rig"
+  },
+
+  {
+    id:"ps4",
+    name:"PS4 Chamber",
+    type:"PS4"
+  }
+
 ];
 
+
+/* =========================================
+   APP STATE
+========================================= */
+
 let state = {
-  date: null,
-  station: STATIONS[0].id,
-  start: null,
-  duration: 1,
-  bookedHours: new Set()
+
+  date:null,
+
+  station:
+    STATIONS[0].id,
+
+  start:null,
+
+  duration:1,
+
+  bookedHours:
+    new Set()
+
 };
 
-const dateInput = document.getElementById('date');
+
+/* =========================================
+   DATE
+========================================= */
+
+const dateInput =
+  document.getElementById("date");
+
+
 function todayStr(){
-  const d = new Date();
-  const tz = d.getTimezoneOffset() * 60000;
-  return new Date(d - tz).toISOString().slice(0,10);
-}
-dateInput.min = todayStr();
-dateInput.value = todayStr();
-state.date = dateInput.value;
 
-const towerSelect = document.getElementById('towerSelect');
+  const d =
+    new Date();
+
+  const tz =
+    d.getTimezoneOffset() *
+    60000;
+
+  return new Date(
+    d - tz
+  )
+    .toISOString()
+    .slice(0,10);
+}
+
+
+dateInput.min =
+  todayStr();
+
+dateInput.value =
+  todayStr();
+
+state.date =
+  dateInput.value;
+
+
+/* =========================================
+   STATIONS
+========================================= */
+
+const towerSelect =
+  document.getElementById(
+    "towerSelect"
+  );
+
+
 function renderStations(){
-  towerSelect.innerHTML = '';
-  STATIONS.forEach(s => {
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'tower-btn' + (s.id === state.station ? ' active' : '');
-    btn.textContent = s.name;
-    btn.addEventListener('click', () => {
-      state.station = s.id;
-      state.start = null;
-      renderStations();
-      refreshAvailability();
-    });
-    towerSelect.appendChild(btn);
-  });
-}
 
-const windowGrid = document.getElementById('windowGrid');
-function renderGrid(){
-  windowGrid.innerHTML = '';
-  for (let h = OPEN_HOUR; h < CLOSE_HOUR; h++){
-    const cell = document.createElement('button');
-    cell.type = 'button';
-    const taken = state.bookedHours.has(h);
-    const inRange = state.start !== null && h >= state.start && h < state.start + state.duration;
-    let cls = 'window-cell ';
-    cls += taken ? 'taken' : (inRange ? (h === state.start ? 'chosen' : 'in-range') : 'free');
-    cell.className = cls;
-    cell.textContent = formatHour(h);
-    cell.disabled = taken;
-    if (!taken){
-      cell.addEventListener('click', () => {
-        state.start = h;
-        state.duration = 1;
-        renderGrid();
-        updateDurationLimits();
-        updateSummary();
-      });
+  towerSelect.innerHTML = "";
+
+
+  STATIONS.forEach(
+    station => {
+
+      const btn =
+        document.createElement(
+          "button"
+        );
+
+
+      btn.type =
+        "button";
+
+
+      btn.className =
+        "tower-btn" +
+        (
+          station.id ===
+          state.station
+            ? " active"
+            : ""
+        );
+
+
+      btn.textContent =
+        station.name;
+
+
+      btn.addEventListener(
+        "click",
+        () => {
+
+          state.station =
+            station.id;
+
+          state.start =
+            null;
+
+          renderStations();
+
+          refreshAvailability();
+
+        }
+      );
+
+
+      towerSelect.appendChild(
+        btn
+      );
+
     }
-    windowGrid.appendChild(cell);
-  }
-}
-function formatHour(h){
-  const ampm = h < 12 ? 'AM' : 'PM';
-  let hh = h % 12; if (hh === 0) hh = 12;
-  return hh + (ampm === 'AM' ? 'A' : 'P');
-}
-function formatHourFull(h){
-  const ampm = h < 12 ? 'AM' : 'PM';
-  let hh = h % 12; if (hh === 0) hh = 12;
-  return hh + ':00 ' + ampm;
+  );
+
 }
 
-const durVal = document.getElementById('durVal');
-const durHint = document.getElementById('durHint');
-function maxDurationFromStart(){
-  if (state.start === null) return 0;
-  let max = 0;
-  for (let h = state.start; h < CLOSE_HOUR; h++){
-    if (state.bookedHours.has(h)) break;
-    max++;
+
+/* =========================================
+   TIME GRID
+========================================= */
+
+const windowGrid =
+  document.getElementById(
+    "windowGrid"
+  );
+
+
+function renderGrid(){
+
+  windowGrid.innerHTML =
+    "";
+
+
+  for(
+    let h = OPEN_HOUR;
+    h < CLOSE_HOUR;
+    h++
+  ){
+
+    const cell =
+      document.createElement(
+        "button"
+      );
+
+
+    cell.type =
+      "button";
+
+
+    const taken =
+      state.bookedHours.has(h);
+
+
+    const inRange =
+      state.start !== null &&
+      h >= state.start &&
+      h <
+        state.start +
+        state.duration;
+
+
+    let cls =
+      "window-cell ";
+
+
+    cls +=
+      taken
+        ? "taken"
+        : (
+            inRange
+              ? (
+                  h === state.start
+                    ? "chosen"
+                    : "in-range"
+                )
+              : "free"
+          );
+
+
+    cell.className =
+      cls;
+
+
+    cell.textContent =
+      formatHour(h);
+
+
+    cell.disabled =
+      taken;
+
+
+    if(!taken){
+
+      cell.addEventListener(
+        "click",
+        () => {
+
+          state.start =
+            h;
+
+          state.duration =
+            1;
+
+          renderGrid();
+
+          updateDurationLimits();
+
+          updateSummary();
+
+        }
+      );
+
+    }
+
+
+    windowGrid.appendChild(
+      cell
+    );
+
   }
-  return Math.min(max, MAX_DURATION);
+
 }
+
+
+/* =========================================
+   TIME FORMAT
+========================================= */
+
+function formatHour(h){
+
+  const ampm =
+    h < 12
+      ? "AM"
+      : "PM";
+
+
+  let hh =
+    h % 12;
+
+
+  if(hh === 0){
+    hh = 12;
+  }
+
+
+  return (
+    hh +
+    (
+      ampm === "AM"
+        ? "A"
+        : "P"
+    )
+  );
+
+}
+
+
+function formatHourFull(h){
+
+  const ampm =
+    h < 12
+      ? "AM"
+      : "PM";
+
+
+  let hh =
+    h % 12;
+
+
+  if(hh === 0){
+    hh = 12;
+  }
+
+
+  return (
+    hh +
+    ":00 " +
+    ampm
+  );
+
+}
+
+
+/* =========================================
+   DURATION
+========================================= */
+
+const durVal =
+  document.getElementById(
+    "durVal"
+  );
+
+
+const durHint =
+  document.getElementById(
+    "durHint"
+  );
+
+
+function maxDurationFromStart(){
+
+  if(
+    state.start === null
+  ){
+
+    return 0;
+
+  }
+
+
+  let max = 0;
+
+
+  for(
+    let h = state.start;
+    h < CLOSE_HOUR;
+    h++
+  ){
+
+    if(
+      state.bookedHours.has(h)
+    ){
+
+      break;
+
+    }
+
+
+    max++;
+
+  }
+
+
+  return Math.min(
+    max,
+    MAX_DURATION
+  );
+
+}
+
+
 function updateDurationLimits(){
-  const max = maxDurationFromStart();
-  if (state.duration > max) state.duration = Math.max(1, max);
-  durVal.textContent = state.duration + (state.duration === 1 ? ' hr' : ' hrs');
-  durHint.textContent = state.start === null
-    ? 'Pick a start time first'
-    : (max + ' hr' + (max===1?'':'s') + ' available from ' + formatHourFull(state.start));
-  document.getElementById('durMinus').disabled = state.duration <= 1;
-  document.getElementById('durPlus').disabled = state.duration >= max;
-  document.getElementById('submitBtn').disabled = !(state.start !== null && state.duration >= 1);
+
+  const max =
+    maxDurationFromStart();
+
+
+  if(
+    state.duration > max
+  ){
+
+    state.duration =
+      Math.max(
+        1,
+        max
+      );
+
+  }
+
+
+  durVal.textContent =
+    state.duration +
+    (
+      state.duration === 1
+        ? " hr"
+        : " hrs"
+    );
+
+
+  durHint.textContent =
+
+    state.start === null
+
+      ? "Pick a start time first"
+
+      :
+
+        max +
+        (
+          max === 1
+            ? " hr"
+            : " hrs"
+        ) +
+        " available from " +
+        formatHourFull(
+          state.start
+        );
+
+
+  document.getElementById(
+    "durMinus"
+  ).disabled =
+    state.duration <= 1;
+
+
+  document.getElementById(
+    "durPlus"
+  ).disabled =
+    state.duration >= max;
+
+
+  document.getElementById(
+    "submitBtn"
+  ).disabled = !(
+    state.start !== null &&
+    state.duration >= 1
+  );
+
+
   renderGrid();
+
 }
-document.getElementById('durMinus').addEventListener('click', () => {
-  if (state.duration > 1){ state.duration--; updateDurationLimits(); updateSummary(); }
-});
-document.getElementById('durPlus').addEventListener('click', () => {
-  const max = maxDurationFromStart();
-  if (state.duration < max){ state.duration++; updateDurationLimits(); updateSummary(); }
-});
+
+
+/* =========================================
+   DURATION BUTTONS
+========================================= */
+
+document
+  .getElementById("durMinus")
+  .addEventListener(
+    "click",
+    () => {
+
+      if(
+        state.duration > 1
+      ){
+
+        state.duration--;
+
+        updateDurationLimits();
+
+        updateSummary();
+
+      }
+
+    }
+  );
+
+
+document
+  .getElementById("durPlus")
+  .addEventListener(
+    "click",
+    () => {
+
+      const max =
+        maxDurationFromStart();
+
+
+      if(
+        state.duration < max
+      ){
+
+        state.duration++;
+
+        updateDurationLimits();
+
+        updateSummary();
+
+      }
+
+    }
+  );
+
+
+/* =========================================
+   BOOKING SUMMARY
+========================================= */
 
 function updateSummary(){
-  const station = STATIONS.find(s => s.id === state.station);
-  document.getElementById('sumStation').textContent = station ? station.name : '—';
-  document.getElementById('sumDate').textContent = state.date || '—';
-  document.getElementById('sumTime').textContent = state.start === null
-    ? '—'
-    : formatHourFull(state.start) + ' – ' + formatHourFull(state.start + state.duration);
+
+  const station =
+    STATIONS.find(
+      s =>
+        s.id ===
+        state.station
+    );
+
+
+  document.getElementById(
+    "sumStation"
+  ).textContent =
+    station
+      ? station.name
+      : "—";
+
+
+  document.getElementById(
+    "sumDate"
+  ).textContent =
+    state.date || "—";
+
+
+  document.getElementById(
+    "sumTime"
+  ).textContent =
+
+    state.start === null
+
+      ? "—"
+
+      :
+
+        formatHourFull(
+          state.start
+        ) +
+        " – " +
+        formatHourFull(
+          state.start +
+          state.duration
+        );
+
 }
+
+
+/* =========================================
+   LOAD AVAILABILITY
+========================================= */
 
 async function refreshAvailability(){
-  state.bookedHours = new Set();
-  state.start = null;
+
+  state.bookedHours =
+    new Set();
+
+
+  state.start =
+    null;
+
+
   renderGrid();
+
   updateDurationLimits();
+
   updateSummary();
 
-  if (!API_URL || API_URL.indexOf('PASTE_YOUR') === 0){
-    showStatus('info', 'Connect the Google Sheet API URL in the code to enable live availability.');
+
+  if(
+    !API_URL
+  ){
+
+    showStatus(
+      "info",
+      "Booking system is not connected."
+    );
+
     return;
+
   }
-  try {
-    const url = `${API_URL}?date=${encodeURIComponent(state.date)}&station=${encodeURIComponent(state.station)}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    (data || []).forEach(b => {
-      const start = parseInt(b.StartHour ?? b.startHour, 10);
-      const dur = parseInt(b.Duration ?? b.duration, 10);
-      for (let h = start; h < start + dur; h++) state.bookedHours.add(h);
-    });
+
+
+  try{
+
+    const url =
+      `${API_URL}?date=${encodeURIComponent(
+        state.date
+      )}&station=${encodeURIComponent(
+        state.station
+      )}`;
+
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+          cache:"no-store"
+        }
+      );
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Unable to connect to booking system."
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    if(
+      data &&
+      data.result === "error"
+    ){
+
+      throw new Error(
+        data.message ||
+        "Booking system returned an error."
+      );
+
+    }
+
+
+    (data || [])
+      .forEach(
+        booking => {
+
+          const start =
+            parseInt(
+              booking.StartHour ??
+              booking.startHour,
+              10
+            );
+
+
+          const duration =
+            parseInt(
+              booking.Duration ??
+              booking.duration,
+              10
+            );
+
+
+          if(
+            Number.isNaN(start) ||
+            Number.isNaN(duration)
+          ){
+
+            return;
+
+          }
+
+
+          for(
+            let h = start;
+            h < start + duration;
+            h++
+          ){
+
+            state.bookedHours.add(h);
+
+          }
+
+        }
+      );
+
+
     renderGrid();
+
     updateDurationLimits();
-  } catch (err){
-    console.error(err);
-    showStatus('err', "Couldn't load live availability. You can still submit — please double-check timing with the desk.");
+
+
+  }catch(error){
+
+    console.error(
+      "Availability error:",
+      error
+    );
+
+
+    showStatus(
+      "err",
+      "Couldn't load live availability. Please refresh the page and try again."
+    );
+
   }
+
 }
 
-function showStatus(type, msg){
-  const el = document.getElementById('statusMsg');
-  el.className = 'status-msg show ' + type;
-  el.textContent = msg;
+
+/* =========================================
+   STATUS MESSAGE
+========================================= */
+
+function showStatus(
+  type,
+  message
+){
+
+  const element =
+    document.getElementById(
+      "statusMsg"
+    );
+
+
+  element.className =
+    "status-msg show " +
+    type;
+
+
+  element.textContent =
+    message;
+
 }
 
-document.getElementById('submitBtn').addEventListener('click', async () => {
-  const name = document.getElementById('custName').value.trim();
-  const phone = document.getElementById('custPhone').value.trim();
-  const people = document.getElementById('custPeople').value;
 
-  if (!name || !phone){
-    showStatus('err', 'Please enter your name and phone number.');
-    return;
+/* =========================================
+   SUBMIT BOOKING
+========================================= */
+
+document
+  .getElementById("submitBtn")
+  .addEventListener(
+    "click",
+    async () => {
+
+
+      const name =
+        document
+          .getElementById(
+            "custName"
+          )
+          .value
+          .trim();
+
+
+      const phone =
+        document
+          .getElementById(
+            "custPhone"
+          )
+          .value
+          .trim();
+
+
+      const people =
+        document
+          .getElementById(
+            "custPeople"
+          )
+          .value;
+
+
+      /*
+       * Name validation
+       */
+
+      if(
+        name.length < 2
+      ){
+
+        showStatus(
+          "err",
+          "Please enter your name."
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Phone validation
+       */
+
+      const cleanPhone =
+        phone.replace(
+          /\D/g,
+          ""
+        );
+
+
+      if(
+        cleanPhone.length !== 10
+      ){
+
+        showStatus(
+          "err",
+          "Please enter a valid 10-digit phone number."
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Time validation
+       */
+
+      if(
+        state.start === null
+      ){
+
+        showStatus(
+          "err",
+          "Please choose a start time."
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Station validation
+       */
+
+      const station =
+        STATIONS.find(
+          s =>
+            s.id ===
+            state.station
+        );
+
+
+      if(!station){
+
+        showStatus(
+          "err",
+          "Please select a station."
+        );
+
+        return;
+
+      }
+
+
+      /*
+       * Create payload.
+       */
+
+      const payload = {
+
+        date:
+          state.date,
+
+        station:
+          state.station,
+
+        stationName:
+          station.name,
+
+        startHour:
+          state.start,
+
+        duration:
+          state.duration,
+
+        startTime:
+          formatHourFull(
+            state.start
+          ),
+
+        endTime:
+          formatHourFull(
+            state.start +
+            state.duration
+          ),
+
+        name:
+          name,
+
+        phone:
+          cleanPhone,
+
+        people:
+          people
+
+      };
+
+
+      const button =
+        document.getElementById(
+          "submitBtn"
+        );
+
+
+      button.disabled =
+        true;
+
+
+      button.textContent =
+        "Lowering the drawbridge…";
+
+
+      try{
+
+
+        const response =
+          await fetch(
+            API_URL,
+            {
+
+              method:"POST",
+
+              headers:{
+                "Content-Type":
+                  "text/plain;charset=utf-8"
+              },
+
+              body:
+                JSON.stringify(
+                  payload
+                )
+
+            }
+          );
+
+
+        if(!response.ok){
+
+          throw new Error(
+            "Booking request failed."
+          );
+
+        }
+
+
+        const result =
+          await response.json();
+
+
+        /*
+         * Backend rejection.
+         */
+
+        if(
+          result.result !==
+          "success"
+        ){
+
+          showStatus(
+            "err",
+            result.message ||
+            "This time slot is no longer available."
+          );
+
+
+          await refreshAvailability();
+
+
+          return;
+
+        }
+
+
+        /*
+         * Success.
+         */
+
+        showStatus(
+          "ok",
+          `Booked! ${station.name} on ${state.date}, ${payload.startTime} – ${payload.endTime}.`
+        );
+
+
+        document.getElementById(
+          "custName"
+        ).value =
+          "";
+
+
+        document.getElementById(
+          "custPhone"
+        ).value =
+          "";
+
+
+        /*
+         * Refresh availability.
+         */
+
+        await refreshAvailability();
+
+
+      }catch(error){
+
+        console.error(
+          "Booking error:",
+          error
+        );
+
+
+        showStatus(
+          "err",
+          "Something went wrong sending your booking. Please try again or call the desk."
+        );
+
+
+      }finally{
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          "Lower the Drawbridge — Confirm Booking";
+
+      }
+
+    }
+  );
+
+
+/* =========================================
+   DATE CHANGE
+========================================= */
+
+dateInput.addEventListener(
+  "change",
+  () => {
+
+    state.date =
+      dateInput.value;
+
+    refreshAvailability();
+
   }
-  if (state.start === null){
-    showStatus('err', 'Please choose a start time.');
-    return;
-  }
+);
 
-  const station = STATIONS.find(s => s.id === state.station);
-  const payload = {
-    date: state.date,
-    station: state.station,
-    stationName: station.name,
-    startHour: state.start,
-    duration: state.duration,
-    startTime: formatHourFull(state.start),
-    endTime: formatHourFull(state.start + state.duration),
-    name, phone, people
-  };
 
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.textContent = 'Lowering the drawbridge…';
-
-  if (!API_URL || API_URL.indexOf('PASTE_YOUR') === 0){
-    showStatus('err', 'Booking not sent — the Google Sheet API URL has not been set up yet (see SETUP.md).');
-    btn.disabled = false;
-    btn.textContent = 'Lower the Drawbridge — Confirm Booking';
-    return;
-  }
-
-  try {
-    await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-    showStatus('ok', `Booked! ${station.name} on ${state.date}, ${payload.startTime} – ${payload.endTime}.`);
-    document.getElementById('custName').value = '';
-    document.getElementById('custPhone').value = '';
-    await refreshAvailability();
-  } catch (err){
-    console.error(err);
-    showStatus('err', 'Something went wrong sending your booking. Please try again or call the desk.');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Lower the Drawbridge — Confirm Booking';
-  }
-});
-
-dateInput.addEventListener('change', () => {
-  state.date = dateInput.value;
-  refreshAvailability();
-});
+/* =========================================
+   INITIALIZE
+========================================= */
 
 renderStations();
+
 renderGrid();
+
 updateDurationLimits();
+
 updateSummary();
+
 refreshAvailability();
+
 </script>
 
+
 </body>
+
 </html>

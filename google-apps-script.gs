@@ -1,4 +1,4 @@
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1qdU2CTcuk4peAIDGCNGTJYKfT-rl_9wcOAJJttrbWyE/edit?gid=0#gid=0";
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/1qdU2CTcuk4peAIDGCNGTJYKfT-rl_9wcOAJJttrbWyE/edit";
 const SHEET_NAME = "Bookings";
 
 
@@ -29,12 +29,13 @@ function getSheet_() {
 }
 
 
-/**
- * GET
- * Returns bookings for a selected date and station.
- */
+/* ================================
+   GET BOOKINGS
+================================ */
+
 function doGet(e) {
   try {
+
     const sheet = getSheet_();
     const values = sheet.getDataRange().getValues();
 
@@ -42,66 +43,123 @@ function doGet(e) {
       return jsonOutput_([]);
     }
 
-    const headers = values.shift();
+    const headers = values[0];
 
-    const dateFilter = e.parameter.date || "";
-    const stationFilter = e.parameter.station || "";
+    const dateFilter =
+      e && e.parameter
+        ? String(e.parameter.date || "")
+        : "";
 
-    const idx = {};
+    const stationFilter =
+      e && e.parameter
+        ? String(e.parameter.station || "")
+        : "";
 
-    headers.forEach((header, i) => {
-      idx[header] = i;
-    });
+    const bookings = [];
 
-    const bookings = values
-      .filter(row => row.length > 0)
-      .map(row => ({
-        Timestamp: row[idx.Timestamp],
-        Date: formatDate_(row[idx.Date]),
-        Station: row[idx.Station],
-        StationName: row[idx.StationName],
-        StartHour: Number(row[idx.StartHour]),
-        Duration: Number(row[idx.Duration]),
-        StartTime: row[idx.StartTime],
-        EndTime: row[idx.EndTime],
-        Name: row[idx.Name],
-        Phone: row[idx.Phone],
-        People: row[idx.People]
-      }))
-      .filter(booking =>
-        !dateFilter || booking.Date === dateFilter
-      )
-      .filter(booking =>
-        !stationFilter || String(booking.Station) === String(stationFilter)
-      );
+    for (let i = 1; i < values.length; i++) {
+
+      const row = values[i];
+
+      const booking = {
+
+        Timestamp: row[0],
+
+        Date: formatDate_(row[1]),
+
+        Station: String(row[2] || ""),
+
+        StationName: String(row[3] || ""),
+
+        StartHour: Number(row[4]),
+
+        Duration: Number(row[5]),
+
+        StartTime: String(row[6] || ""),
+
+        EndTime: String(row[7] || ""),
+
+        Name: String(row[8] || ""),
+
+        Phone: String(row[9] || ""),
+
+        People: String(row[10] || "")
+      };
+
+
+      if (
+        dateFilter &&
+        booking.Date !== dateFilter
+      ) {
+        continue;
+      }
+
+
+      if (
+        stationFilter &&
+        booking.Station !== stationFilter
+      ) {
+        continue;
+      }
+
+
+      bookings.push(booking);
+    }
+
 
     return jsonOutput_(bookings);
 
-  } catch (err) {
+
+  } catch (error) {
 
     return jsonOutput_({
       result: "error",
-      message: err.message
+      message: error.message
     });
   }
 }
 
 
-/**
- * POST
- * Creates a new booking.
- *
- * Uses LockService so simultaneous bookings
- * cannot book the same station/time together.
- */
+/* ================================
+   CREATE BOOKING
+================================ */
+
 function doPost(e) {
-  const lock = LockService.getScriptLock();
+
+  const lock =
+    LockService.getScriptLock();
 
   try {
-    lock.waitLock(10000);
 
-    const data = JSON.parse(e.postData.contents);
+    /*
+     * Prevent two people from booking
+     * the same slot simultaneously.
+     */
+    lock.waitLock(15000);
 
+
+    if (
+      !e ||
+      !e.postData ||
+      !e.postData.contents
+    ) {
+
+      return jsonOutput_({
+        result: "error",
+        message: "No booking data received."
+      });
+    }
+
+
+    const data =
+      JSON.parse(
+        e.postData.contents
+      );
+
+
+    /*
+     * Required fields
+     */
     const requiredFields = [
       "date",
       "station",
@@ -115,159 +173,312 @@ function doPost(e) {
       "people"
     ];
 
-    for (const field of requiredFields) {
+
+    for (
+      let i = 0;
+      i < requiredFields.length;
+      i++
+    ) {
+
+      const field =
+        requiredFields[i];
+
+
       if (
         data[field] === undefined ||
         data[field] === null ||
         String(data[field]).trim() === ""
       ) {
+
         return jsonOutput_({
           result: "error",
-          message: `Missing field: ${field}`
+          message:
+            "Missing booking information: " +
+            field
         });
       }
     }
 
-    const date = String(data.date).trim();
-    const station = String(data.station).trim();
 
-    const startHour = Number(data.startHour);
-    const duration = Number(data.duration);
+    const date =
+      String(data.date).trim();
 
+    const station =
+      String(data.station).trim();
+
+    const stationName =
+      String(data.stationName).trim();
+
+    const startHour =
+      Number(data.startHour);
+
+    const duration =
+      Number(data.duration);
+
+    const startTime =
+      String(data.startTime).trim();
+
+    const endTime =
+      String(data.endTime).trim();
+
+    const name =
+      String(data.name).trim();
+
+    const phone =
+      String(data.phone).trim();
+
+    const people =
+      String(data.people).trim();
+
+
+    /*
+     * Validate time.
+     *
+     * Opening: 10 AM
+     * Closing: 11 PM
+     */
     if (
       !Number.isInteger(startHour) ||
       !Number.isInteger(duration) ||
-      duration < 1 ||
       startHour < 10 ||
+      duration < 1 ||
       startHour + duration > 23
     ) {
+
       return jsonOutput_({
         result: "error",
-        message: "Invalid booking time or duration."
+        message:
+          "Invalid booking time."
       });
     }
 
-    const sheet = getSheet_();
-    const values = sheet.getDataRange().getValues();
 
     /*
-     * Check existing bookings for overlap.
+     * Validate name.
+     */
+    if (name.length < 2) {
+
+      return jsonOutput_({
+        result: "error",
+        message:
+          "Please enter a valid name."
+      });
+    }
+
+
+    /*
+     * Validate phone.
+     */
+    const cleanPhone =
+      phone.replace(/\D/g, "");
+
+
+    if (cleanPhone.length !== 10) {
+
+      return jsonOutput_({
+        result: "error",
+        message:
+          "Please enter a valid 10-digit phone number."
+      });
+    }
+
+
+    const sheet =
+      getSheet_();
+
+    const values =
+      sheet.getDataRange().getValues();
+
+
+    /*
+     * Check existing bookings.
      *
-     * Example:
-     * Existing: 5 PM - 7 PM
-     * New:      6 PM - 8 PM
-     *
-     * This will be rejected.
+     * Prevents overlapping bookings
+     * on the same date + station.
      */
     if (values.length > 1) {
-      const headers = values[0];
 
-      const idx = {};
+      for (
+        let i = 1;
+        i < values.length;
+        i++
+      ) {
 
-      headers.forEach((header, i) => {
-        idx[header] = i;
-      });
+        const row =
+          values[i];
 
-      for (let i = 1; i < values.length; i++) {
-        const row = values[i];
 
-        const existingDate = formatDate_(row[idx.Date]);
-        const existingStation = String(row[idx.Station]);
+        const existingDate =
+          formatDate_(row[1]);
 
+        const existingStation =
+          String(row[2] || "");
+
+        const existingStart =
+          Number(row[4]);
+
+        const existingDuration =
+          Number(row[5]);
+
+        const existingEnd =
+          existingStart +
+          existingDuration;
+
+
+        /*
+         * Only compare bookings
+         * for the same date and station.
+         */
         if (
           existingDate === date &&
           existingStation === station
         ) {
-          const existingStart = Number(row[idx.StartHour]);
-          const existingDuration = Number(row[idx.Duration]);
-          const existingEnd =
-            existingStart + existingDuration;
+
+          const newStart =
+            startHour;
 
           const newEnd =
             startHour + duration;
 
-          const overlaps =
-            startHour < existingEnd &&
+
+          /*
+           * Overlap formula:
+           *
+           * New start < old end
+           * AND
+           * New end > old start
+           */
+          const overlap =
+            newStart < existingEnd &&
             newEnd > existingStart;
 
-          if (overlaps) {
+
+          if (overlap) {
+
             return jsonOutput_({
+
               result: "error",
+
               message:
-                "This time slot has just been booked. Please choose another time."
+                "Sorry, this time slot has just been booked. Please select another available time."
             });
           }
         }
       }
     }
 
+
     /*
-     * Add booking.
+     * Save booking.
      */
     sheet.appendRow([
+
       new Date(),
+
       date,
+
       station,
-      String(data.stationName),
+
+      stationName,
+
       startHour,
+
       duration,
-      String(data.startTime),
-      String(data.endTime),
-      String(data.name).trim(),
-      String(data.phone).trim(),
-      String(data.people)
+
+      startTime,
+
+      endTime,
+
+      name,
+
+      cleanPhone,
+
+      people
+
     ]);
+
 
     SpreadsheetApp.flush();
 
+
     return jsonOutput_({
+
       result: "success",
-      message: "Booking confirmed."
+
+      message:
+        "Booking confirmed successfully."
+
     });
 
-  } catch (err) {
+
+  } catch (error) {
 
     return jsonOutput_({
+
       result: "error",
-      message: err.message
+
+      message: error.message
+
     });
 
   } finally {
 
     try {
+
       lock.releaseLock();
+
     } catch (e) {
-      // Ignore lock release errors.
+
+      // Nothing to do.
     }
   }
 }
 
 
-/**
- * Converts response to JSON.
- */
+/* ================================
+   JSON RESPONSE
+================================ */
+
 function jsonOutput_(data) {
+
   return ContentService
-    .createTextOutput(JSON.stringify(data))
-    .setMimeType(ContentService.MimeType.JSON);
+
+    .createTextOutput(
+      JSON.stringify(data)
+    )
+
+    .setMimeType(
+      ContentService.MimeType.JSON
+    );
 }
 
 
-/**
- * Converts Sheet date values into yyyy-MM-dd.
- */
+/* ================================
+   DATE FORMATTER
+================================ */
+
 function formatDate_(value) {
 
   if (
-    Object.prototype.toString.call(value) === "[object Date]" &&
-    !isNaN(value.getTime())
+    Object.prototype.toString.call(value)
+    === "[object Date]"
   ) {
-    return Utilities.formatDate(
-      value,
-      Session.getScriptTimeZone(),
-      "yyyy-MM-dd"
-    );
+
+    if (
+      !isNaN(value.getTime())
+    ) {
+
+      return Utilities.formatDate(
+
+        value,
+
+        Session.getScriptTimeZone(),
+
+        "yyyy-MM-dd"
+      );
+    }
   }
 
-  return String(value).trim();
+
+  return String(value || "").trim();
 }
